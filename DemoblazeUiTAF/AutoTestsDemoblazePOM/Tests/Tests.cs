@@ -11,14 +11,11 @@ namespace DemoblazeUiTAF.AutoTestsDemoblazePOM.Tests
         [Test]
         public void ShouldCteateNewUser_WhenDataIsValid()
         {
-            UserEntity user = new UserEntity("Anna", "qwerty67");
+            UserEntity user = new UserEntity("Anna" + DateTime.Now.Ticks, "qwerty67");
 
             SignUpPage signUpPage = new SignUpPage(Driver);
 
-            signUpPage.ClickSignUpButton();
-            signUpPage.EnterUserName(user.UserName);
-            signUpPage.EnterPassword(user.Password);
-            signUpPage.ClickSignUpOnPopUpButton();
+            signUpPage.RegisterNewUser(user);
 
             string actualAlertText = signUpPage.GetAlertTextWithWait();
             string expectedAlertText = "Sign up successful.";
@@ -34,10 +31,7 @@ namespace DemoblazeUiTAF.AutoTestsDemoblazePOM.Tests
 
             SignUpPage signUpPage = new SignUpPage(Driver);
 
-            signUpPage.ClickSignUpButton();
-            signUpPage.EnterUserName(user.UserName);
-            signUpPage.EnterPassword(user.Password);
-            signUpPage.ClickSignUpOnPopUpButton();
+            signUpPage.RegisterNewUser(user);
 
             string actualAlertText = signUpPage.GetAlertTextWithWait();
             string expectedAlertText = "Please fill out Username and Password.";
@@ -53,10 +47,7 @@ namespace DemoblazeUiTAF.AutoTestsDemoblazePOM.Tests
 
             LoginPage loginPage = new LoginPage(Driver);
 
-            loginPage.ClickLoginButton();
-            loginPage.EnterUserName(user.UserName);
-            loginPage.EnterPassword(user.Password);
-            loginPage.ClickLoginPopUpButton();
+            loginPage.LoginUser(user);
         }
 
         [Test]
@@ -66,10 +57,7 @@ namespace DemoblazeUiTAF.AutoTestsDemoblazePOM.Tests
 
             LoginPage loginPage = new LoginPage(Driver);
 
-            loginPage.ClickLoginButton();
-            loginPage.EnterUserName(user.UserName);
-            loginPage.EnterPassword(user.Password);
-            loginPage.ClickLoginPopUpButton();
+            loginPage.LoginUser(user);
 
             string actualWelcomeLable = loginPage.GetWelcomeMessageText(user.UserName);
             string expectedWelcomeLablel = ($"Welcome {user.UserName}");
@@ -84,10 +72,7 @@ namespace DemoblazeUiTAF.AutoTestsDemoblazePOM.Tests
 
             LoginPage loginPage = new LoginPage(Driver);
 
-            loginPage.ClickLoginButton();
-            loginPage.EnterUserName(user.UserName);
-            loginPage.EnterPassword(user.Password);
-            loginPage.ClickLoginPopUpButton();
+            loginPage.LoginUser(user);
 
             string actualAlertText = loginPage.GetAlertTextWithWait();
             string expectedAlertText = "Please fill out Username and Password.";
@@ -137,18 +122,12 @@ namespace DemoblazeUiTAF.AutoTestsDemoblazePOM.Tests
         {
             UserEntity user = new UserEntity("Anna14", "qwerty67");
             OrderEntity order = new OrderEntity("Anna", "USA", "New York", "123456789", "12", "122029");
-
-
             LoginPage loginPage = new LoginPage(Driver);
             ProductPage productPage = new ProductPage(Driver);
             CartPage cartPage = new CartPage(Driver);
             OrderPage orderPage = new OrderPage(Driver);
 
-            // Login
-            loginPage.ClickLoginButton();
-            loginPage.EnterUserName(user.UserName);
-            loginPage.EnterPassword(user.Password);
-            loginPage.ClickLoginPopUpButton();
+            loginPage.LoginUser(user);
 
             // Add product to cart
             productPage.WaitForTheProductToBeNotStale();
@@ -158,13 +137,8 @@ namespace DemoblazeUiTAF.AutoTestsDemoblazePOM.Tests
             // Place order
             cartPage.ClickCartButton();
             cartPage.ClickPlaceOrderButton();
-            orderPage.EnterName(order.Name);
-            orderPage.EnterCountry(order.Country);
-            orderPage.EnterCountry(order.City);
-            orderPage.EnterCreditCard(order.CreditCard);
-            orderPage.EnterCardMonth(order.Month);
-            orderPage.EnterCardYear(order.Year);
-            orderPage.ClickPurchaseButton();
+            
+            orderPage.FillingOrderFields(order);
 
             // Verify confirmation
             string confirmationMessage = orderPage.GetConfirmationMessage();
@@ -182,10 +156,7 @@ namespace DemoblazeUiTAF.AutoTestsDemoblazePOM.Tests
             CartPage cartPage = new CartPage(Driver);
             OrderPage orderPage = new OrderPage(Driver);
 
-            loginPage.ClickLoginButton();
-            loginPage.EnterUserName(user.UserName);
-            loginPage.EnterPassword(user.Password);
-            loginPage.ClickLoginPopUpButton();
+            loginPage.LoginUser(user);
 
             productPage.WaitForTheProductToBeNotStale();
             productPage.ClickProductNameTitle();
@@ -193,14 +164,8 @@ namespace DemoblazeUiTAF.AutoTestsDemoblazePOM.Tests
 
             cartPage.ClickCartButton();
             cartPage.ClickPlaceOrderButton();
-           
-            orderPage.EnterName(order.Name);
-            orderPage.EnterCountry(order.Country);
-            orderPage.EnterCountry(order.City);
-            orderPage.EnterCreditCard(order.CreditCard);
-            orderPage.EnterCardMonth(order.Month);
-            orderPage.EnterCardYear(order.Year);
-            orderPage.ClickPurchaseButton();
+
+            orderPage.FillingOrderFields(order);
 
             string actualAlertText = orderPage.GetAlertTextWithWait();
             string expectedAlertText = "Please fill out Name and Creditcard.";
@@ -219,27 +184,17 @@ namespace DemoblazeUiTAF.AutoTestsDemoblazePOM.Tests
             ProductPage productPage = new ProductPage(Driver);
             CartPage cartPage = new CartPage(Driver);
             OrderPage orderPage = new OrderPage(Driver);
-           
-            loginPage.ClickLoginButton();
-            loginPage.EnterUserName(user.UserName);
-            loginPage.EnterPassword(user.Password);
-            loginPage.ClickLoginPopUpButton();
 
+            loginPage.LoginUser(user);
+
+            productPage.WaitForTheProductToBeNotStale();
             productPage.ClickProductNameTitle();
             productPage.ClickAddToCartButton();
 
             cartPage.ClickCartButton();
-            cartPage.ClickDeleteProductBtn();
-            cartPage.WaitUntilCartIsEmpty();
-
             cartPage.ClickPlaceOrderButton();
-            orderPage.EnterName(order.Name);
-            orderPage.EnterCountry(order.Country);
-            orderPage.EnterCountry(order.City);
-            orderPage.EnterCreditCard(order.CreditCard);
-            orderPage.EnterCardMonth(order.Month);
-            orderPage.EnterCardYear(order.Year);
-            orderPage.ClickPurchaseButton();
+
+            orderPage.FillingOrderFields(order);
 
             string confirmationMessage = orderPage.GetConfirmationMessage();
             Assert.That(confirmationMessage, Is.EqualTo("Thank you for your purchase!"));

@@ -1,4 +1,5 @@
 ﻿using DemoblazeUiTAF.AutoTestsDemoblazePOM.Base;
+using DemoblazeUiTAF.AutoTestsDemoblazePOM.Entities;
 using OpenQA.Selenium;
 
 namespace DemoblazeUiTAF.AutoTestsDemoblazePOM.Pages
@@ -18,5 +19,13 @@ namespace DemoblazeUiTAF.AutoTestsDemoblazePOM.Pages
         public void EnterUserName(string username) => UserNameTextField.SendKeys(username);
         public void EnterPassword(string password) => PasswordTextField.SendKeys(password);
         public void ClickSignUpOnPopUpButton() => SignUpOnPopUpBtn.Click();
+
+        public void RegisterNewUser(UserEntity user)
+        {
+            ClickSignUpButton();
+            EnterUserName(user.UserName);
+            EnterPassword(user.Password);
+            ClickSignUpOnPopUpButton();
+        }
     }
 }

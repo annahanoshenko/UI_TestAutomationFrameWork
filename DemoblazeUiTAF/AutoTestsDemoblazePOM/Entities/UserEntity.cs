@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DemoblazeUiTAF.AutoTestsDemoblazePOM.Entities
 {
-    internal class UserEntity
+    public class UserEntity
     {
         public string UserName { get; set; }
         public string Password { get; set; }

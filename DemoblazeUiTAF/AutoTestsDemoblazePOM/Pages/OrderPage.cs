@@ -2,6 +2,7 @@
 using OpenQA.Selenium;
 using DemoblazeUiTAF.AutoTestsDemoblazePOM.Base;
 using SeleniumExtras.WaitHelpers;
+using DemoblazeUiTAF.AutoTestsDemoblazePOM.Entities;
 
 namespace DemoblazeUiTAF.AutoTestsDemoblazePOM.Pages
 {
@@ -24,6 +25,7 @@ namespace DemoblazeUiTAF.AutoTestsDemoblazePOM.Pages
 
         public void EnterName(string name) => NameTextField.SendKeys(name);
         public void EnterCountry(string country) => CountryTextField.SendKeys(country);
+        public void EnterCity(string city) => CountryTextField.SendKeys(city);
         public void EnterCreditCard(string card) => CreditCardTextField.SendKeys(card);
         public void EnterCardMonth(string month) => MonthTextField.SendKeys(month);
         public void EnterCardYear(string year) => YearTextField.SendKeys(year);
@@ -35,6 +37,17 @@ namespace DemoblazeUiTAF.AutoTestsDemoblazePOM.Pages
         {
             wait.Until(ExpectedConditions.ElementIsVisible(ConfirmationPopUpLocator));
             return ConfirmationPopUp.Text;
+        }
+
+        public void FillingOrderFields(OrderEntity order)
+        {
+           EnterName(order.Name);
+           EnterCountry(order.Country);
+           EnterCity(order.City);
+           EnterCreditCard(order.CreditCard);
+           EnterCardMonth(order.Month);
+           EnterCardYear(order.Year);
+           ClickPurchaseButton();
         }
     }
 }

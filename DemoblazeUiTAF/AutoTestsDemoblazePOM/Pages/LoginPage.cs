@@ -1,4 +1,5 @@
 ﻿using DemoblazeUiTAF.AutoTestsDemoblazePOM.Base;
+using DemoblazeUiTAF.AutoTestsDemoblazePOM.Entities;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
@@ -27,6 +28,15 @@ namespace DemoblazeUiTAF.AutoTestsDemoblazePOM.Pages
             WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(5));
             IWebElement welcomeLable = wait.Until(ExpectedConditions.ElementIsVisible(By.Id("nameofuser")));
             return welcomeLable.Text;
+        }
+
+        public void LoginUser(UserEntity user)
+        {
+           ClickLoginButton();
+           EnterUserName(user.UserName);
+           EnterPassword(user.Password);
+           ClickLoginPopUpButton();
+
         }
     }
 }
